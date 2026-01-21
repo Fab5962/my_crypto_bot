@@ -1,33 +1,50 @@
 
     <html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="60">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body { background: #0f172a; color: #f8fafc; font-family: sans-serif; text-align: center; padding: 20px; }
-        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-        .card { background: #1e293b; border-radius: 12px; padding: 20px; min-width: 160px; border-top: 5px solid #334155; }
-        .highlight { font-size: 1.4em; font-weight: bold; }
-        .ok { border-color: #10b981 !important; background: #064e3b; }
-        table { width: 100%; max-width: 500px; margin: 20px auto; border-collapse: collapse; }
-        td, th { padding: 10px; border-bottom: 1px solid #334155; }
-        .chart { margin: 20px auto; max-width: 800px; height: 400px; background: #1e293b; border-radius: 12px; overflow: hidden; }
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 20px 0; }
+        .card { background: #1e293b; border-radius: 12px; padding: 15px; min-width: 150px; border-top: 5px solid #334155; }
+        .highlight { font-size: 1.3em; font-weight: bold; }
+        .statut { background: #f59e0b; color: white; padding: 10px 30px; border-radius: 50px; display: inline-block; font-weight: bold; }
+        table { width: 100%; max-width: 600px; margin: 20px auto; border-collapse: collapse; background: #1e293b; border-radius: 10px; overflow: hidden; }
+        td, th { padding: 12px; border-bottom: 1px solid #334155; }
+        .container { max-width: 900px; margin: auto; }
+        canvas { background: #1e293b; border-radius: 12px; padding: 10px; margin: 20px 0; }
     </style></head>
     <body>
-        <h1>💰 Portefeuille Virtuel : 100.00 $</h1>
-        <div class="grid">
-            <div class="card" style="border-color: #10b981"><h3>Prix / VWAP</h3><p class="highlight">90,115 $</p></div>
-            <div class="card" style="border-color: #334155"><h3>RSI (Max 45)</h3><p class="highlight">54.8</p></div>
-            <div class="card" style="border-color: #10b981"><h3>Fear & Greed</h3><p class="highlight">24/100</p></div>
-            <div class="card" style="border-color: #10b981"><h3>Dollar (48h)</h3><p class="highlight">-0.62%</p></div>
-        </div>
-        
-        <div class="chart">
-            <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=60&theme=dark" width="100%" height="100%" frameborder="0"></iframe>
+        <div class="container">
+            <div class="statut">VEILLE (CASH)</div>
+            <h1>💰 Portefeuille : 100.00 $</h1>
+            
+            <div class="grid">
+                <div class="card" style="border-color: #10b981"><h3>Prix / VWAP</h3><p class="highlight">90,193 $</p></div>
+                <div class="card" style="border-color: #334155"><h3>RSI</h3><p class="highlight">55.3</p></div>
+                <div class="card" style="border-color: #10b981"><h3>Fear & Greed</h3><p class="highlight">24/100</p></div>
+                <div class="card" style="border-color: #10b981"><h3>Dollar (48h)</h3><p class="highlight">-0.61%</p></div>
+            </div>
+
+            <canvas id="myChart"></canvas>
+
+            <table>
+                <tr style="background: #334155;"><th>Date</th><th>Type</th><th>Prix</th></tr>
+                
+            </table>
+            
+            <p>🛡️ Réserve Sécurisée : <b style="color: #10b981;">0.00 USDT</b></p>
+            <p style="color: #64748b; font-size: 0.8em;">MàJ : 23:08:09</p>
         </div>
 
-        <table>
-            <tr><th>Date</th><th>Type</th><th>Prix</th></tr>
-            
-        </table>
-        
-        <p>🛡️ Réserve : <b>0.00 USDT</b></p>
+        <script>
+            new Chart("myChart", {
+                type: "line",
+                data: {
+                    labels: ['23:00', '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+                    datasets: [{ label: "Prix BTC", data: [88339.6171875, 88816.96875, 88909.5859375, 88958.2265625, 89315.8828125, 89352.0078125, 89813.7734375, 89527.296875, 89049.6171875, 89101.4921875, 88984.3203125, 89175.625, 88687.1328125, 88647.78125, 88700.5, 89829.578125, 90238.5859375, 87585.9921875, 87895.9296875, 88377.2890625, 90246.1328125, 90094.9453125, 90194.1328125, 90193.0], borderColor: "#f59e0b", fill: false },
+                               { label: "VWAP", data: [90723.84212239583, 90565.92936197916, 90405.599609375, 90259.5029296875, 90132.77083333333, 90024.333984375, 89949.73404947916, 89897.94563802081, 89813.47688802081, 89734.44531249999, 89653.00097656249, 89569.29036458331, 89466.80598958333, 89360.65364583334, 89270.17578125, 89238.74544270833, 89230.79231770833, 89126.236328125, 89052.24479166666, 89009.89095052083, 89036.90787760416, 89061.50585937499, 89093.92675781249, 89168.14225260416], borderColor: "#38bdf8", borderDash: [5, 5], fill: false }]
+                },
+                options: { responsive: true, scales: { y: { grid: { color: "#334155" } } } }
+            });
+        </script>
     </body></html>
     
