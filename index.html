@@ -1,20 +1,33 @@
 
     <html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="60">
     <style>
-        body { background: #0f172a; color: #f8fafc; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 20px; }
-        .card { background: #1e293b; border-radius: 15px; padding: 20px; margin: 10px; display: inline-block; min-width: 180px; border-bottom: 4px solid #334155; }
-        .highlight { color: #38bdf8; font-size: 1.5em; font-weight: bold; }
-        .statut { background: #f59e0b; color: white; padding: 10px 25px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 20px; }
-        .reserve { border-color: #10b981; background: #064e3b; }
+        body { background: #0f172a; color: #f8fafc; font-family: sans-serif; text-align: center; padding: 20px; }
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .card { background: #1e293b; border-radius: 12px; padding: 20px; min-width: 160px; border-top: 5px solid #334155; }
+        .highlight { font-size: 1.4em; font-weight: bold; }
+        .ok { border-color: #10b981 !important; background: #064e3b; }
+        table { width: 100%; max-width: 500px; margin: 20px auto; border-collapse: collapse; }
+        td, th { padding: 10px; border-bottom: 1px solid #334155; }
+        .chart { margin: 20px auto; max-width: 800px; height: 400px; background: #1e293b; border-radius: 12px; overflow: hidden; }
     </style></head>
     <body>
-        <div class="statut">EN VEILLE (CASH)</div>
         <h1>💰 Portefeuille Virtuel : 100.00 $</h1>
-        <div class="card"><h3>Bitcoin</h3><p class="highlight">90,163 $</p></div>
-        <div class="card"><h3>RSI</h3><p class="highlight">55.8</p></div>
-        <div class="card"><h3>Fear & Greed</h3><p class="highlight">24/100</p></div>
-        <div class="card"><h3>Dollar (48h)</h3><p class="highlight">+nan%</p></div>
-        <br><div class="card reserve"><h3>🛡️ Réserve Sécurisée</h3><p class="highlight" style="color: #34d399;">0.00 USDT</p></div>
-        <p style="margin-top: 20px; color: #64748b;">Mise à jour : 22:45:20</p>
+        <div class="grid">
+            <div class="card" style="border-color: #10b981"><h3>Prix / VWAP</h3><p class="highlight">90,115 $</p></div>
+            <div class="card" style="border-color: #334155"><h3>RSI (Max 45)</h3><p class="highlight">54.8</p></div>
+            <div class="card" style="border-color: #10b981"><h3>Fear & Greed</h3><p class="highlight">24/100</p></div>
+            <div class="card" style="border-color: #10b981"><h3>Dollar (48h)</h3><p class="highlight">-0.62%</p></div>
+        </div>
+        
+        <div class="chart">
+            <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=60&theme=dark" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+
+        <table>
+            <tr><th>Date</th><th>Type</th><th>Prix</th></tr>
+            
+        </table>
+        
+        <p>🛡️ Réserve : <b>0.00 USDT</b></p>
     </body></html>
     
