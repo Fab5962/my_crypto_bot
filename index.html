@@ -5,82 +5,74 @@
     <style>
         body { background: #0f172a; color: #f8fafc; font-family: sans-serif; text-align: center; padding: 20px; }
         .container { max-width: 900px; margin: auto; }
-        .statut { background: #f59e0b; color: white; padding: 8px 25px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 10px; }
+        .statut { background: #f59e0b; color: white; padding: 8px 25px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 15px; }
         .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 20px 0; }
-        .card { background: #1e293b; border-radius: 12px; padding: 15px; min-width: 160px; border: 2px solid #334155; transition: 0.3s; }
+        .card { background: #1e293b; border-radius: 12px; padding: 15px; min-width: 160px; border: 2px solid #334155; }
         .active-card { border-color: #10b981; background: #064e3b55; box-shadow: 0 0 15px #10b98133; }
         .highlight { font-size: 1.4em; font-weight: bold; display: block; }
-        .target { font-size: 0.75em; color: #94a3b8; text-transform: uppercase; }
+        .target { font-size: 0.75em; color: #94a3b8; text-transform: uppercase; display: block; margin-bottom: 5px; }
         .tag { padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 0.8em; margin: 0 5px; display: inline-block; }
         .tag-ok { background: #064e3b; color: #10b981; border: 1px solid #10b981; }
-        .tag-err { background: #7f1d1d; color: #f87171; border: 1px solid #f87171; }
-        canvas { background: #1e293b; border-radius: 12px; padding: 15px; margin: 10px 0; width: 100% !important; }
+        canvas { background: #1e293b; border-radius: 12px; padding: 15px; margin: 10px 0; }
         table { width: 100%; margin-top: 20px; border-collapse: collapse; background: #1e293b; border-radius: 10px; overflow: hidden; }
         th, td { padding: 12px; border-bottom: 1px solid #334155; }
     </style></head>
     <body>
         <div class="container">
             <div class="statut">VEILLE (CASH)</div><br>
-            <div class="tag tag-ok" id="botStatus">🤖 BOT : ACTIF</div>
-            <div class="tag tag-ok" id="syncStatus">🌐 SYNC : OK</div>
+            <div class="tag tag-ok">🤖 BOT : ACTIF</div>
+            <div class="tag tag-ok">🌐 SYNC : OK</div>
             
             <h1 style="margin: 20px 0;">💰 Total : 100.00 $</h1>
-            <p style="color: #94a3b8;">Portefeuille: 100.00$ | Réserve Sécu: 0.00$</p>
+            <p style="color: #94a3b8;">Portefeuille: 100.00$ | Réserve (50% gains): 0.00$</p>
 
             <div class="grid">
-                <div class="card ">
-                    <span class="target">Prix > VWAP</span>
-                    <span class="highlight">89,437$</span>
-                </div>
-                <div class="card active-card">
-                    <span class="target">RSI < 60</span>
-                    <span class="highlight">48.6</span>
-                </div>
-                <div class="card active-card">
-                    <span class="target">F&G < 80</span>
-                    <span class="highlight">20</span>
-                </div>
-                <div class="card active-card">
-                    <span class="target">DXY < 0.5%</span>
-                    <span class="highlight">-0.29%</span>
-                </div>
+                <div class="card "><span class="target">Cible: > VWAP</span><span class="highlight">89,215$</span></div>
+                <div class="card active-card"><span class="target">Cible: RSI < 60</span><span class="highlight">46.0</span></div>
+                <div class="card active-card"><span class="target">Cible: F&G < 80</span><span class="highlight">20</span></div>
+                <div class="card active-card"><span class="target">Cible: DXY < 0.5%</span><span class="highlight">-0.29%</span></div>
             </div>
 
-            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-                <div class="tradingview-widget-container" style="width: 100%; max-width: 500px;">
-                    <div id="tradingview_chart"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-                    <script type="text/javascript">
-                    new TradingView.widget({
-                      "width": "100%", "height": 300, "symbol": "BINANCE:BTCUSDT",
-                      "interval": "60", "timezone": "Etc/UTC", "theme": "dark", "style": "1",
-                      "locale": "fr", "enable_publishing": false, "hide_top_toolbar": true, "container_id": "tradingview_chart"
-                    });
-                    </script>
-                </div>
-                <div class="tradingview-widget-container" style="width: 350px;">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-                    { "interval": "1h", "width": "100%", "height": 300, "isTransparent": false, "symbol": "BINANCE:BTCUSDT", "showIntervalTabs": false, "displayMode": "single", "locale": "fr", "colorTheme": "dark" }
-                    </script>
-                </div>
+            <canvas id="priceChart" height="110"></canvas>
+            <canvas id="rsiChart" height="50"></canvas>
+
+            <div style="margin: 20px 0;">
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                { "interval": "1h", "width": "100%", "isTransparent": false, "height": 320, "symbol": "BINANCE:BTCUSDT", "showIntervalTabs": false, "displayMode": "single", "locale": "fr", "colorTheme": "dark" }
+                </script>
             </div>
 
             <table>
                 <tr style="background: #334155;"><th>Date</th><th>Ordre</th><th>Prix BTC</th></tr>
                 
             </table>
+            <p style="font-size: 0.8em; color: #475569; margin-top: 20px;">Dernière synchro : 22:49:17</p>
         </div>
 
         <script>
-            function checkHealth() {
-                const last = new Date("2026-01-22T22:39:49");
-                if ((new Date() - last) / 1000 > 1200) {
-                    document.getElementById("syncStatus").className = "tag tag-err";
-                    document.getElementById("syncStatus").innerText = "🌐 SYNC : ATTENTE";
-                }
-            }
-            setInterval(checkHealth, 10000);
+            new Chart("priceChart", {
+                type: "line",
+                data: {
+                    labels: ['22:00', '23:00', '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'],
+                    datasets: [
+                        { label: "Prix", data: [89782.7421875, 89368.671875, 89814.7421875, 90045.375, 89860.421875, 89806.5078125, 89961.8203125, 89859.625, 90108.515625, 89713.28125, 89823.0078125, 89947.0625, 90011.8125, 89853.8828125, 89935.0, 89521.828125, 89121.171875, 88943.0234375, 88906.21875, 89447.0625, 89221.640625, 89729.1796875, 89373.109375, 89214.6953125], borderColor: "#f59e0b", tension: 0.3, pointRadius: 0, borderWidth: 3 },
+                        { label: "VWAP", data: [89151.04817708333, 89193.92545572917, 89235.49934895833, 89282.82389322916, 89320.41536458333, 89340.85807291666, 89366.26692708333, 89368.17740885416, 89392.39485677081, 89420.04752604166, 89450.11067708333, 89490.22493489583, 89525.06608072916, 89573.6806640625, 89627.31477864583, 89661.53678385416, 89632.01985677083, 89578.0380859375, 89633.04752604166, 89697.67805989583, 89732.859375, 89711.31966145833, 89681.2431640625, 89640.43326822916], borderColor: "#38bdf8", borderDash: [5, 5], pointRadius: 0, borderWidth: 2 }
+                    ]
+                },
+                options: { plugins: { legend: { display: false } }, scales: { y: { grid: { color: "#1e293b" } }, x: { grid: { display: false } } } }
+            });
+
+            new Chart("rsiChart", {
+                type: "line",
+                data: {
+                    labels: ['22:00', '23:00', '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'],
+                    datasets: [
+                        { label: "RSI", data: [52.01225903346254, 48.86609161531897, 52.219170040885786, 53.90229546560159, 52.31089242982064, 51.830513992493856, 53.164811528746256, 52.14134845195229, 54.44161652797172, 50.306630215865994, 51.410026392504754, 52.68905637626622, 53.37886431493484, 51.40996908288516, 52.38151349276641, 47.20426219272809, 42.78786915557077, 40.95315404968623, 40.566148181143504, 48.298114311161136, 45.63341643429995, 52.04818444317488, 47.788086993161535, 45.984775827961194], borderColor: "#a78bfa", pointRadius: 0, borderWidth: 2 },
+                        { label: "Limite", data: Array(24).fill(60), borderColor: "#ef4444", borderDash: [3, 3], pointRadius: 0 }
+                    ]
+                },
+                options: { plugins: { legend: { display: false } }, scales: { y: { min: 20, max: 80, grid: { color: "#1e293b" } } } }
+            });
         </script>
     </body></html>
     
