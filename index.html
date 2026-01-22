@@ -1,46 +1,86 @@
 
     <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="60">
-        <title>Bot Elite V2 Dashboard</title>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-        <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: white; text-align: center; }
-            .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; }
-            .card { background: #1e1e1e; padding: 20px; border-radius: 15px; min-width: 200px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #333; }
-            .value { font-size: 24px; font-weight: bold; color: #3498db; }
-            .label { font-size: 14px; color: #888; text-transform: uppercase; margin-top: 5px; }
-            .status { font-size: 20px; font-weight: bold; color: #f1c40f; margin-top: 20px; }
-            #chart { width: 90%; margin: auto; background: #1e1e1e; border-radius: 15px; padding: 10px; }
-        </style>
-    </head>
+    <html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="60">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background: #0f172a; color: #f8fafc; font-family: sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 900px; margin: auto; }
+        .statut { background: #f59e0b; color: white; padding: 8px 25px; border-radius: 50px; display: inline-block; font-weight: bold; margin-bottom: 10px; }
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 20px 0; }
+        .card { background: #1e293b; border-radius: 12px; padding: 15px; min-width: 160px; border: 2px solid #334155; transition: 0.3s; }
+        .active-card { border-color: #10b981; background: #064e3b55; box-shadow: 0 0 15px #10b98133; }
+        .highlight { font-size: 1.4em; font-weight: bold; display: block; }
+        .target { font-size: 0.75em; color: #94a3b8; text-transform: uppercase; }
+        .tag { padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 0.8em; margin: 0 5px; display: inline-block; }
+        .tag-ok { background: #064e3b; color: #10b981; border: 1px solid #10b981; }
+        .tag-err { background: #7f1d1d; color: #f87171; border: 1px solid #f87171; }
+        canvas { background: #1e293b; border-radius: 12px; padding: 15px; margin: 10px 0; width: 100% !important; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; background: #1e293b; border-radius: 10px; overflow: hidden; }
+        th, td { padding: 12px; border-bottom: 1px solid #334155; }
+    </style></head>
     <body>
-        <h1>🚀 BOT ELITE V2 - MONITORING</h1>
-        <div class="status">💤 ATTENTE SIGNAL</div>
-        
         <div class="container">
-            <div class="card"><div class="value">89,531 $</div><div class="label">Prix BTC</div></div>
-            <div class="card"><div class="value" style="color:#2ecc71">49.7</div><div class="label">RSI (14)</div></div>
-            <div class="card"><div class="value">+0.00 %</div><div class="label">Performance</div></div>
-            <div class="card"><div class="value">20</div><div class="label">Fear & Greed</div></div>
-            <div class="card"><div class="value">-0.25%</div><div class="label">Variation DXY</div></div>
-            <div class="card"><div class="value">0.0161</div><div class="label">Bollinger Width</div></div>
+            <div class="statut">VEILLE (CASH)</div><br>
+            <div class="tag tag-ok" id="botStatus">🤖 BOT : ACTIF</div>
+            <div class="tag tag-ok" id="syncStatus">🌐 SYNC : OK</div>
+            
+            <h1 style="margin: 20px 0;">💰 Total : 100.00 $</h1>
+            <p style="color: #94a3b8;">Portefeuille: 100.00$ | Réserve Sécu: 0.00$</p>
+
+            <div class="grid">
+                <div class="card ">
+                    <span class="target">Prix > VWAP</span>
+                    <span class="highlight">89,437$</span>
+                </div>
+                <div class="card active-card">
+                    <span class="target">RSI < 60</span>
+                    <span class="highlight">48.6</span>
+                </div>
+                <div class="card active-card">
+                    <span class="target">F&G < 80</span>
+                    <span class="highlight">20</span>
+                </div>
+                <div class="card active-card">
+                    <span class="target">DXY < 0.5%</span>
+                    <span class="highlight">-0.29%</span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                <div class="tradingview-widget-container" style="width: 100%; max-width: 500px;">
+                    <div id="tradingview_chart"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                    <script type="text/javascript">
+                    new TradingView.widget({
+                      "width": "100%", "height": 300, "symbol": "BINANCE:BTCUSDT",
+                      "interval": "60", "timezone": "Etc/UTC", "theme": "dark", "style": "1",
+                      "locale": "fr", "enable_publishing": false, "hide_top_toolbar": true, "container_id": "tradingview_chart"
+                    });
+                    </script>
+                </div>
+                <div class="tradingview-widget-container" style="width: 350px;">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                    { "interval": "1h", "width": "100%", "height": 300, "isTransparent": false, "symbol": "BINANCE:BTCUSDT", "showIntervalTabs": false, "displayMode": "single", "locale": "fr", "colorTheme": "dark" }
+                    </script>
+                </div>
+            </div>
+
+            <table>
+                <tr style="background: #334155;"><th>Date</th><th>Ordre</th><th>Prix BTC</th></tr>
+                
+            </table>
         </div>
 
-        <div id="chart"></div>
         <script>
-            var data = [{ x: [0, 1], y: [0, 1], type: 'scatter', mode: 'lines', line: {color: '#3498db'} }];
-            var layout = { title: 'Historique Temps Réel (Simulation)', paper_bgcolor: '#1e1e1e', plot_bgcolor: '#1e1e1e', font: {color: '#fff'} };
-            Plotly.newPlot('chart', data, layout);
+            function checkHealth() {
+                const last = new Date("2026-01-22T22:39:49");
+                if ((new Date() - last) / 1000 > 1200) {
+                    document.getElementById("syncStatus").className = "tag tag-err";
+                    document.getElementById("syncStatus").innerText = "🌐 SYNC : ATTENTE";
+                }
+            }
+            setInterval(checkHealth, 10000);
         </script>
-        
-        <h3>📜 DERNIERS TRADES</h3>
-        <pre style="text-align:left; display:inline-block; background:#000; padding:15px; border-radius:10px;">
-[]
-        </pre>
-        <p>Dernière mise à jour : 22:28:23</p>
-    </body>
-    </html>
+    </body></html>
     
