@@ -3,34 +3,26 @@
     <html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="900">
     <style>
         body { background: #0f172a; color: white; font-family: sans-serif; text-align: center; padding: 40px; }
-        .badge { background: #334155; color: white; padding: 8px 20px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
-        .price { font-size: 4em; font-weight: bold; margin: 10px 0; }
-        .reserve { color: #94a3b8; margin-bottom: 30px; font-size: 1.2em; }
-        .exit-banner { border: 1px solid #ef4444; color: #f87171; padding: 15px; border-radius: 12px; margin: 20px auto; max-width: 600px; font-weight: bold; }
+        .badge { background: #334155; padding: 8px 20px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; display: inline-block; }
+        .price { font-size: 3.5em; font-weight: bold; margin: 10px 0; }
         .grid { display: flex; justify-content: center; gap: 20px; margin: 40px 0; }
-        .card { background: #1e293b; padding: 20px; border-radius: 15px; min-width: 160px; border: 1px solid #334155; }
+        .card { padding: 25px; border-radius: 15px; min-width: 170px; border: 2px solid #334155; transition: 0.3s; }
         .label { color: #94a3b8; font-size: 0.8em; text-transform: uppercase; margin-bottom: 5px; }
         .val { font-size: 1.8em; font-weight: bold; }
         table { width: 100%; max-width: 800px; margin: auto; border-collapse: collapse; background: #1e293b; border-radius: 10px; overflow: hidden; }
-        th, td { padding: 15px; border-bottom: 1px solid #334155; text-align: left; }
+        td { padding: 15px; border-bottom: 1px solid #334155; text-align: left; }
     </style></head>
     <body>
         <div class="badge">VEILLE (SWING 4H)</div>
         <div class="price">💰 100.00 $</div>
-        <div class="reserve">Réserve (Cagnotte) : 0.00 $</div>
+        <p style="color:#94a3b8">Réserve : 0.00 $ | Sortie : AUCUN ORDRE</p>
         
-        <div class="exit-banner">🎯 SORTIE PRÉVUE : AUCUN ORDRE EN COURS</div>
-
         <div class="grid">
-            <div class="card"><div class="label">Prix BTC</div><div class="val">88,554$</div></div>
-            <div class="card"><div class="label">RSI (4H)</div><div class="val">36.4</div></div>
-            <div class="card"><div class="label">ADX</div><div class="val">35.6</div></div>
-            <div class="card"><div class="label">SMA 50</div><div class="val">91,053$</div></div>
+            <div class="card" style="background: #1e293b"><div class="label">Prix / SMA 50</div><div class="val">88,549$</div></div>
+            <div class="card" style="background: #10b981"><div class="label">RSI (4H)</div><div class="val">36.3</div></div>
+            <div class="card" style="background: #10b981"><div class="label">ADX (Trend)</div><div class="val">35.6</div></div>
         </div>
 
-        <table>
-            <thead><tr style="background:#334155;"><th>Date</th><th>Action</th><th>Prix</th></tr></thead>
-            <tbody></tbody>
-        </table>
+        <table></table>
     </body></html>
     
